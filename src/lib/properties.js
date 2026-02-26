@@ -1,0 +1,69 @@
+/**
+ * Property data utilities for all_data.json structure.
+ */
+
+export function getBuilders(items) {
+  if (!items || !Array.isArray(items)) return [];
+  const seen = new Set();
+  const builders = [];
+  items.forEach((p) => {
+    if (p.builder && !seen.has(p.builder)) {
+      seen.add(p.builder);
+      builders.push({ name: p.builder, slug: encodeURIComponent(p.builder) });
+    }
+  });
+  return builders.sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
+}
+
+export function getPropertiesByBuilder(items, builderNameEncoded) {
+  if (!items || !Array.isArray(items) || !builderNameEncoded) return [];
+  const name = decodeURIComponent(builderNameEncoded);
+  return items.filter((p) => p.builder === name);
+}
+
+export function getPropertyBySlug(items, slug) {
+  if (!items || !Array.isArray(items) || !slug) return null;
+  return items.find((p) => p.slug === slug) || null;
+}
+
+export function hasBuy(item) {
+  const s = item?.statistics;
+  return s && (s.transactions || (s.total && s.total.count > 0));
+}
+
+export function hasRent(item) {
+  const s = item?.statistics;
+  return s && s.rents && Object.keys(s.rents).length > 0;
+}
+
+export function filterProperties(items, { search = "", type = "All" }) {
+  if (!items || !Array.isArray(items)) return [];
+  let list = items;
+  if (type === "Buy") list = list.filter(hasBuy);
+  else if (type === "Rent") list = list.filter(hasRent);
+  if (search.trim()) {
+    const q = search.toLowerCase().trim();
+    list = list.filter(
+      (p) =>
+        (p.title && p.title.toLowerCase().includes(q)) ||
+        (p.builder && p.builder.toLowerCase().includes(q)) ||
+        (p.district?.title && p.district.title.toLowerCase().includes(q)) ||
+        (p.slug && p.slug.toLowerCase().includes(q))
+    );
+  }
+  return list;
+}
+
+export function formatPrice(n) {
+  if (n == null) return "—";
+  return new Intl.NumberFormat("en-AE", {
+    style: "decimal",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(n) + " AED";
+}
+
+export function formatArea(sqm) {
+  if (sqm == null) return "—";
+  return `${Number(sqm).toLocaleString("en-AE")} sqm`;
+}
