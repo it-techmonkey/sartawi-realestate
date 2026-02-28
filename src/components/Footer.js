@@ -8,6 +8,7 @@ const FOOTER_LINKS = [
   { label: "About Us", href: "/about" },
   { label: "Developers", href: "/developers" },
   { label: "Featured Properties", href: "/featured-properties" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -16,6 +17,7 @@ const SERVICES = [
   { label: "Homes for Rent", href: "/services/homes-for-rent" },
   { label: "Commercial for Sale", href: "/services/commercial-for-sale" },
   { label: "Commercial for Rent", href: "/services/commercial-for-rent" },
+  { label: "Sell Your Property", href: "/services/sell-your-property" },
   { label: "Partner Services", href: "/services/partner-services" },
 ];
 
@@ -115,7 +117,7 @@ const Footer = () => {
             <a href="tel:+97145525643" className="hover:text-[#e0b973] transition-colors">
               +971 45 525 643
             </a>
-            <a href="mailto:admin@sartawiproperties.com" className="hover:text-[#e0b973] transition-colors">
+            <a href="mailto:admin@sartawiproperties.com" className="hover:text-[#e0b973] transition-colors whitespace-nowrap">
               admin@sartawiproperties.com
             </a>
             <span>Sartawi Properties, Parklane Tower, 901</span>

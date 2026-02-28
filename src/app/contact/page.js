@@ -33,7 +33,7 @@ export default function ContactPage() {
               <a href="tel:+97145525643" className="block text-white hover:text-[#e0b973] transition-colors py-1.5 text-base">
                 +971 45 525 643
               </a>
-              <a href="mailto:admin@sartawiproperties.com" className="block text-zinc-400 hover:text-[#e0b973] transition-colors py-1.5 text-sm break-all">
+              <a href="mailto:admin@sartawiproperties.com" className="block text-zinc-400 hover:text-[#e0b973] transition-colors py-1.5 text-sm whitespace-nowrap">
                 admin@sartawiproperties.com
               </a>
               <p className="text-zinc-500 text-sm pt-2">

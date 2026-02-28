@@ -5,7 +5,7 @@ import ScrollReveal from "./ScrollReveal";
 const POINTS = [
   { title: "Trust & transparency", text: "We put your interests first. Clear communication, honest advice, and no hidden terms." },
   { title: "Local insight, global reach", text: "Deep knowledge of Dubai’s market combined with experience serving international clients." },
-  { title: "End-to-end support", text: "From search and viewings to paperwork and handover—we guide you at every step." },
+  { title: "End-to-end support", text: "From search and viewings to paperwork and handover, we guide you at every step." },
   { title: "Curated portfolio", text: "Only properties that meet our standards for quality, location, and value." },
 ];
 

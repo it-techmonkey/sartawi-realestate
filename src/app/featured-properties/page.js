@@ -37,6 +37,8 @@ function FeaturedPropertiesContent() {
   const [showMap, setShowMap] = useState(false);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const PROPERTIES_PER_PAGE = 12;
 
   useEffect(() => {
     const q = searchParams.get("search") ?? "";
@@ -76,6 +78,15 @@ function FeaturedPropertiesContent() {
   };
 
   const filteredProperties = filterProperties(items, { search, type });
+  const totalPages = Math.max(1, Math.ceil(filteredProperties.length / PROPERTIES_PER_PAGE));
+  const paginatedProperties = filteredProperties.slice(
+    (page - 1) * PROPERTIES_PER_PAGE,
+    page * PROPERTIES_PER_PAGE
+  );
+
+  useEffect(() => {
+    setPage(1);
+  }, [search, type]);
 
   return (
     <main className="min-h-screen bg-black text-white pb-24">
@@ -116,17 +127,17 @@ function FeaturedPropertiesContent() {
             />
           </div>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="flex bg-zinc-800/80 rounded-full p-1 border border-zinc-700/80">
+          <div className="flex flex-wrap items-stretch gap-3 sm:gap-4">
+            <div className="flex bg-zinc-800/80 rounded-full p-1 border border-zinc-700/80 h-12">
               <button
                 type="button"
                 onClick={() => handleTypeChange("Buy")}
                 aria-pressed={type === "Buy"}
-                className={`min-h-[44px] ${
+                className={`h-full flex items-center ${
                   type === "Buy"
                     ? "bg-[#e0b973] text-black font-semibold"
                     : "text-zinc-400 hover:text-white"
-                } text-xs md:text-sm px-6 py-2 rounded-full transition-all`}
+                } text-xs md:text-sm px-5 sm:px-6 rounded-full transition-all`}
               >
                 Buy
               </button>
@@ -134,11 +145,11 @@ function FeaturedPropertiesContent() {
                 type="button"
                 onClick={() => handleTypeChange("Rent")}
                 aria-pressed={type === "Rent"}
-                className={`min-h-[44px] ${
+                className={`h-full flex items-center ${
                   type === "Rent"
                     ? "bg-[#e0b973] text-black font-semibold"
                     : "text-zinc-400 hover:text-white"
-                } text-xs md:text-sm px-6 py-2 rounded-full transition-all`}
+                } text-xs md:text-sm px-5 sm:px-6 rounded-full transition-all`}
               >
                 Rent
               </button>
@@ -148,24 +159,22 @@ function FeaturedPropertiesContent() {
               type="button"
               onClick={() => setShowMap(!showMap)}
               aria-expanded={showMap}
-              className={`min-h-[44px] px-6 py-2 rounded-full transition-colors duration-200 flex items-center gap-2 text-sm font-semibold ${
+              aria-label={showMap ? "Hide map" : "Show on map"}
+              className={`h-12 flex items-center justify-center gap-2 rounded-full transition-colors duration-200 text-xs md:text-sm font-semibold px-5 sm:px-6 ${
                 showMap
                   ? "bg-[#e0b973] text-black hover:bg-[#d4a85f]"
-                  : "bg-zinc-800 text-white hover:bg-zinc-700 border border-zinc-700"
+                  : "bg-zinc-800/80 text-white hover:bg-zinc-700 border border-zinc-700/80"
               }`}
             >
               <svg
-                className="w-4 h-4"
+                className="w-4 h-4 shrink-0"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"
-                ></path>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               {showMap ? "Hide Map" : "Show on Map"}
             </button>
@@ -178,6 +187,19 @@ function FeaturedPropertiesContent() {
           <div className="rounded-xl overflow-hidden border border-zinc-800 h-[500px]">
             <PropertiesMap items={filteredProperties} dark />
           </div>
+          <div className="flex justify-center mt-4">
+            <button
+              type="button"
+              onClick={() => setShowMap(false)}
+              aria-label="Hide map"
+              className="h-12 px-6 rounded-full bg-zinc-800 border border-zinc-700 text-white hover:bg-zinc-700 flex items-center gap-2 text-sm font-semibold"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
+              </svg>
+              Hide Map
+            </button>
+          </div>
         </div>
       )}
 
@@ -186,12 +208,13 @@ function FeaturedPropertiesContent() {
           Loading properties...
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 max-w-7xl mx-auto pb-16">
-          {filteredProperties.map((prop) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 px-4 max-w-7xl mx-auto pb-8">
+          {paginatedProperties.map((prop, index) => {
             const total = prop.statistics?.total || {};
             const coverUrl = prop.cover?.logo || prop.cover?.src;
             const forSale = hasBuy(prop);
             const forRent = hasRent(prop);
+            const isPriority = page === 1 && index < 6;
             return (
               <Link
                 key={prop.id}
@@ -205,6 +228,7 @@ function FeaturedPropertiesContent() {
                       alt={prop.title || prop.slug}
                       variant="card"
                       fill
+                      priority={isPriority}
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
@@ -269,28 +293,28 @@ function FeaturedPropertiesContent() {
                       {total.price_to != null &&
                         total.price_to !== total.price_from &&
                         formatPrice(total.price_to)}
-                      {total.price_from == null && total.price_to == null && "—"}
+                      {total.price_from == null && total.price_to == null && "N/A"}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-3 gap-4 pt-2 text-[#bebebe] text-center">
                     <div className="flex flex-col items-center gap-1">
                       <span className="text-xs font-semibold">
-                        {total.units_count ?? "—"} units
+                        {total.units_count ?? "N/A"} units
                       </span>
                     </div>
                     <div className="flex flex-col items-center gap-1 border-x border-zinc-800">
                       <span className="text-xs font-semibold">
                         {total.units_area_mt != null
                           ? formatArea(total.units_area_mt)
-                          : "—"}
+                          : "N/A"}
                       </span>
                     </div>
                     <div className="flex flex-col items-center gap-1">
                       <span className="text-xs font-semibold">
                         {total.units_max_floor != null
                           ? `Up to ${total.units_max_floor} floors`
-                          : "—"}
+                          : "N/A"}
                       </span>
                     </div>
                   </div>
@@ -299,6 +323,32 @@ function FeaturedPropertiesContent() {
             );
           })}
         </div>
+      )}
+
+      {!loading && filteredProperties.length > 0 && totalPages > 1 && (
+        <nav className="max-w-7xl mx-auto px-4 py-8 flex items-center justify-center gap-2" aria-label="Properties pagination">
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page <= 1}
+            aria-label="Previous page"
+            className="min-h-[44px] min-w-[44px] rounded-xl border border-zinc-700 bg-zinc-900 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-800 transition-colors flex items-center justify-center"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <span className="px-4 text-sm text-gray-400">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page >= totalPages}
+            aria-label="Next page"
+            className="min-h-[44px] min-w-[44px] rounded-xl border border-zinc-700 bg-zinc-900 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-800 transition-colors flex items-center justify-center"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </nav>
       )}
 
       {!loading && filteredProperties.length === 0 && (

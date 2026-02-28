@@ -11,6 +11,7 @@ export default function DevelopersPage() {
   const [search, setSearch] = useState("");
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     fetch("/data/all_data.json")
@@ -26,6 +27,16 @@ export default function DevelopersPage() {
   const filteredDevelopers = builders.filter((b) =>
     b.name.toLowerCase().includes(search.toLowerCase())
   );
+  const DEVELOPERS_PER_PAGE = 24;
+  const totalPages = Math.max(1, Math.ceil(filteredDevelopers.length / DEVELOPERS_PER_PAGE));
+  const paginatedDevelopers = filteredDevelopers.slice(
+    (page - 1) * DEVELOPERS_PER_PAGE,
+    page * DEVELOPERS_PER_PAGE
+  );
+
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   return (
     <main className="min-h-screen bg-black text-white pb-24">
@@ -72,10 +83,12 @@ export default function DevelopersPage() {
         </div>
       ) : (
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
-          {filteredDevelopers.map((dev) => {
+          {paginatedDevelopers.map((dev) => {
             const count = items.filter((p) => p.builder === dev.name).length;
-            const firstProject = items.find((p) => p.builder === dev.name);
-            const logoUrl = firstProject?.logo?.logo || firstProject?.logo?.src;
+            const projectsForBuilder = items.filter((p) => p.builder === dev.name);
+            const withLogo = projectsForBuilder.find((p) => p.logo?.src || p.logo?.logo);
+            const firstProject = withLogo || projectsForBuilder[0];
+            const logoUrl = firstProject?.logo?.src || firstProject?.logo?.logo || firstProject?.cover?.src || firstProject?.cover?.logo;
             return (
               <Link
                 key={dev.name}
@@ -107,6 +120,32 @@ export default function DevelopersPage() {
             );
           })}
         </div>
+      )}
+
+      {!loading && filteredDevelopers.length > 0 && totalPages > 1 && (
+        <nav className="max-w-6xl mx-auto px-4 py-10 flex items-center justify-center gap-2" aria-label="Developers pagination">
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page <= 1}
+            aria-label="Previous page"
+            className="min-h-[44px] min-w-[44px] rounded-xl border border-zinc-700 bg-zinc-900 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-800 transition-colors flex items-center justify-center"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <span className="px-4 text-sm text-gray-400">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page >= totalPages}
+            aria-label="Next page"
+            className="min-h-[44px] min-w-[44px] rounded-xl border border-zinc-700 bg-zinc-900 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-800 transition-colors flex items-center justify-center"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </nav>
       )}
 
       {!loading && filteredDevelopers.length === 0 && (

@@ -4,7 +4,7 @@ import ScrollReveal from "./ScrollReveal";
 
 const PLACEHOLDER_ITEMS = [
   { q: "How do I list my property with Sartawi?", a: "Get in touch via the form above or contact us directly. We’ll arrange a visit and guide you through the process." },
-  { q: "Which areas do you cover?", a: "We focus on Dubai’s prime and emerging communities—from Downtown and Marina to Dubai South and beyond." },
+  { q: "Which areas do you cover?", a: "We focus on Dubai’s prime and emerging communities, from Downtown and Marina to Dubai South and beyond." },
   { q: "Do you work with international investors?", a: "Yes. We specialise in helping international clients buy, sell, and rent property in Dubai with full support." },
 ];
 
@@ -17,7 +17,7 @@ export default function HomeFAQ() {
           Support
         </p>
         <h2 className="text-4xl sm:text-5xl font-light text-center mb-6 tracking-tight">
-          Frequently asked <span className="font-semibold text-[#e0b973]">questions</span>
+          FAQ&apos;s
         </h2>
           <p className="text-gray-400 text-center mb-14 text-lg">
             Quick answers to common questions. More content coming soon.

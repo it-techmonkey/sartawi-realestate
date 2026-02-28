@@ -36,8 +36,8 @@ export default function HomesForSale() {
                         <div className="relative group">
                             <div className="relative bg-gradient-to-br from-[#111111] to-[#1a1a1a] p-8 rounded-3xl border border-[#262626] hover:border-[#e0b973] transition-all duration-500 hover:shadow-2xl hover:shadow-[#e0b973]/20 overflow-hidden min-h-[400px] flex items-center justify-center">
                                 <div
-                                    className="absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-20 transition-all duration-500 rounded-3xl scale-105 group-hover:scale-110"
-                                    style={{ backgroundImage: "url('/serviceimage/HomeforSale.png')" }}
+                                    className="absolute inset-0 bg-cover bg-center opacity-45 group-hover:opacity-35 transition-all duration-500 rounded-3xl scale-105 group-hover:scale-110"
+                                    style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80')" }}
                                 ></div>
                                 <div className="relative z-10 text-center space-y-6">
                                     <div className="w-20 h-20 bg-gradient-to-br from-[#e0b973] to-[#f4d03f] flex items-center justify-center rounded-2xl mb-6 group-hover:scale-110 transition-all duration-500 mx-auto shadow-lg shadow-[#e0b973]/25 text-black">

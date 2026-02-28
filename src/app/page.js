@@ -8,12 +8,10 @@ import SellPropertyForm from "@/components/SellPropertyForm";
 import HomeBlogs from "@/components/HomeBlogs";
 import HomeFAQ from "@/components/HomeFAQ";
 import HomeContact from "@/components/HomeContact";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 export default function Home() {
   return (
     <div className="relative">
-      <WhatsAppFloat />
       <Hero />
       <DeveloperLogoCarousel />
 

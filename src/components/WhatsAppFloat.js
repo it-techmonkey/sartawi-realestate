@@ -15,12 +15,10 @@ export default function WhatsAppFloat() {
   return (
     <div className="fixed right-4 sm:right-5 bottom-5 z-40 group">
       <div className="absolute right-full bottom-0 mr-3 mb-1 px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 shadow-xl text-left opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64">
-        <div className="flex items-center gap-2 text-[#e0b973] font-semibold text-sm mb-1">
-          <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
-          Customer support
-        </div>
-        <p className="text-gray-300 text-xs leading-snug">
-          Sartawi group need quick answers? Tap to chat with us on WhatsApp.
+        <p className="text-[#e0b973] font-semibold text-sm">Sartawi</p>
+        <p className="text-gray-400 text-xs">Customer support</p>
+        <p className="text-gray-300 text-xs leading-snug mt-2">
+          Need quick answers? Tap to chat with us.
         </p>
         <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full border-8 border-transparent border-l-zinc-700" />
       </div>
@@ -29,7 +27,7 @@ export default function WhatsAppFloat() {
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-lg hover:bg-[#20bd5a] hover:scale-105 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-        aria-label="Chat with Sartawi on WhatsApp – customer support"
+        aria-label="Sartawi customer support. Need quick answers? Tap to chat with us on WhatsApp."
       >
         <WhatsAppIcon className="w-6 h-6" />
       </a>

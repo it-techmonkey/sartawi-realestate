@@ -20,9 +20,9 @@ export default function ExternalImage({
   const [error, setError] = useState(false);
 
   const dimensions = {
-    card: { width: IMAGE.CARD_WIDTH, height: IMAGE.CARD_HEIGHT, sizes: "(max-width: 768px) 100vw, 400px" },
+    card: { width: IMAGE.CARD_WIDTH, height: IMAGE.CARD_HEIGHT, sizes: "(max-width: 768px) 100vw, 800px" },
     hero: { width: IMAGE.DETAIL_HERO_WIDTH, height: IMAGE.DETAIL_HERO_HEIGHT, sizes: "100vw" },
-    gallery: { width: IMAGE.GALLERY_THUMB_WIDTH, height: IMAGE.GALLERY_THUMB_HEIGHT, sizes: "200px" },
+    gallery: { width: IMAGE.GALLERY_THUMB_WIDTH, height: IMAGE.GALLERY_THUMB_HEIGHT, sizes: "400px" },
     developerLogo: { width: IMAGE.DEVELOPER_LOGO_WIDTH, height: IMAGE.DEVELOPER_LOGO_HEIGHT, sizes: "160px" },
   };
   const dim = dimensions[variant] || dimensions.card;

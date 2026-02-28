@@ -15,7 +15,7 @@ export default function HomeContact() {
           Contact <span className="font-semibold text-[#e0b973]">us</span>
         </h2>
         <p className="text-gray-400 text-lg mb-12 max-w-xl mx-auto">
-          Whether you’re buying, selling, or renting—our team is here to help with expert advice and personalised service.
+          Whether you’re buying, selling, or renting, our team is here to help with expert advice and personalised service.
         </p>
       </ScrollReveal>
       <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-12 max-w-4xl mx-auto">
@@ -33,14 +33,14 @@ export default function HomeContact() {
           </a>
           <a
             href="mailto:admin@sartawiproperties.com"
-            className="flex items-center gap-4 rounded-xl bg-zinc-900/70 px-6 py-5 sm:px-6 sm:py-6 hover:bg-zinc-800/80 transition-colors group min-h-[72px] sm:min-h-0"
+            className="flex items-center gap-4 rounded-xl bg-zinc-900/70 px-6 py-5 sm:px-6 sm:py-6 hover:bg-zinc-800/80 transition-colors group min-h-[72px] sm:min-h-0 min-w-0 sm:min-w-[280px]"
           >
             <span className="flex-shrink-0 w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-[#e0b973] group-hover:bg-[#e0b973]/10 transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.875a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
             </span>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <p className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">Email</p>
-              <p className="text-white font-medium text-sm break-all">admin@sartawiproperties.com</p>
+              <p className="text-white font-medium text-sm break-all sm:break-normal sm:whitespace-nowrap">admin@sartawiproperties.com</p>
             </div>
           </a>
           <div className="flex items-center gap-4 rounded-xl bg-zinc-900/70 px-6 py-5 sm:px-6 sm:py-6 min-h-[72px] sm:min-h-0">

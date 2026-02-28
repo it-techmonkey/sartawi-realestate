@@ -127,6 +127,7 @@ const Navbar = () => {
                                     name: "Commercial for Rent",
                                     href: "/services/commercial-for-rent",
                                 },
+                                { name: "Sell Your Property", href: "/services/sell-your-property" },
                                 { name: "Partner Services", href: "/services/partner-services" },
                             ].map((service) => (
                                 <Link
@@ -211,6 +212,7 @@ const Navbar = () => {
                                     { name: "Homes for Rent", href: "/services/homes-for-rent" },
                                     { name: "Commercial for Sale", href: "/services/commercial-for-sale" },
                                     { name: "Commercial for Rent", href: "/services/commercial-for-rent" },
+                                    { name: "Sell Your Property", href: "/services/sell-your-property" },
                                     { name: "Partner Services", href: "/services/partner-services" },
                                 ].map((service) => (
                                     <Link

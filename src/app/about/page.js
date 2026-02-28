@@ -19,7 +19,7 @@ export default function AboutPage() {
             About <span className="text-[#e0b973]">Sartawi</span>
           </>
         }
-        subtitle="Trust, resilience, and ambition—from a village of hope to a city of dreams."
+        subtitle="Trust, resilience, and ambition: from a village of hope to a city of dreams."
       />
 
       {/* Who Are We */}
@@ -36,7 +36,7 @@ export default function AboutPage() {
               <div className="text-gray-400 leading-relaxed space-y-5 text-base sm:text-lg">
                 <p>
                   Sartawi Properties was born from the dreams of two brothers from a
-                  small village in Palestine—a name that stands for{" "}
+                  small village in Palestine, a name that stands for{" "}
                   <strong className="text-white">Trust, Resilience and Ambition</strong>.
                 </p>
                 <p>
@@ -76,11 +76,11 @@ export default function AboutPage() {
                 Our purpose
               </p>
               <h2 className="text-3xl sm:text-4xl font-light text-white mb-6 tracking-tight">
-                Beyond transactions—we help shape futures
+                Beyond transactions, we help shape futures
               </h2>
               <div className="text-gray-400 leading-relaxed space-y-5 text-base sm:text-lg">
                 <p>
-                  At Sartawi Properties, our purpose goes beyond transactions—we help
+                  At Sartawi Properties, our purpose goes beyond transactions: we help
                   shape futures. As trusted real estate brokers, we guide
                   international investors through Dubai&apos;s dynamic property market
                   with transparency, tailored support, and reliable results.
@@ -111,7 +111,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Founder – Mohammed Younis */}
+      {/* Founder: Mohammed Younis */}
       <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-16 border-b border-zinc-800/60">
         <div className="max-w-5xl mx-auto">
           <p className="text-[#e0b973] text-xs font-semibold uppercase tracking-[0.2em] mb-4 text-center">
@@ -125,7 +125,7 @@ export default function AboutPage() {
               <div className="w-44 h-44 sm:w-52 sm:h-52 rounded-full overflow-hidden border-2 border-[#e0b973]/40 shadow-xl ring-2 ring-zinc-800/50">
                 <Image
                   src="/founder2.webp"
-                  alt="Mohammed Younis – Founder, Sartawi Properties"
+                  alt="Mohammed Younis, Founder, Sartawi Properties"
                   width={208}
                   height={208}
                   className="w-full h-full object-cover"

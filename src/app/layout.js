@@ -2,6 +2,7 @@ import { Urbanist } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -9,7 +10,7 @@ const urbanist = Urbanist({
 });
 
 export const metadata = {
-  title: "Sartawi Properties - Discover Your Dream Property",
+  title: "Sartawi Properties. Discover Your Dream Property",
   description: "Find premium real estate properties in Dubai with Sartawi. Trust. Resilience. Ambition.",
   icons: {
     icon: "/logos/sartavilogo.svg",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <main className="flex-grow relative">{children}</main>
           <Footer />
+          <WhatsAppFloat />
         </div>
       </body>
     </html>

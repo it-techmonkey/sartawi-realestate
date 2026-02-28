@@ -3,10 +3,10 @@
 import ScrollReveal from "./ScrollReveal";
 
 const STATS = [
-  { value: "1000+", label: "Total Properties" },
+  { value: "30+", label: "Years in Real Estate" },
+  { value: "60+", label: "Nationalities Helped" },
+  { value: "1000+", label: "Properties in Portfolio" },
   { value: "100+", label: "Properties Sold" },
-  { value: "60+", label: "Total Clients" },
-  { value: "25+", label: "Total Locations" },
 ];
 
 export default function HomeAchievements() {

@@ -16,6 +16,8 @@ export default function DeveloperPropertiesPage() {
   const builderSlug = params?.builderSlug;
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const PROPERTIES_PER_PAGE = 12;
 
   useEffect(() => {
     fetch("/data/all_data.json")
@@ -29,6 +31,11 @@ export default function DeveloperPropertiesPage() {
 
   const properties = getPropertiesByBuilder(items, builderSlug);
   const builderName = builderSlug ? decodeURIComponent(builderSlug) : "";
+  const totalPages = Math.max(1, Math.ceil(properties.length / PROPERTIES_PER_PAGE));
+  const paginatedProperties = properties.slice(
+    (page - 1) * PROPERTIES_PER_PAGE,
+    page * PROPERTIES_PER_PAGE
+  );
 
   return (
     <main className="min-h-screen bg-black text-white pb-24 pt-20">
@@ -60,11 +67,11 @@ export default function DeveloperPropertiesPage() {
         </div>
       ) : (
         <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {properties.map((prop) => {
+          {paginatedProperties.map((prop) => {
             const total = prop.statistics?.total || {};
             const priceFrom = total.price_from;
             const priceTo = total.price_to;
-            const coverUrl = prop.cover?.logo || prop.cover?.src;
+            const coverUrl = prop.cover?.src || prop.cover?.logo;
             const forSale = hasBuy(prop);
             const forRent = hasRent(prop);
             return (
@@ -112,7 +119,7 @@ export default function DeveloperPropertiesPage() {
                       {priceFrom != null && formatPrice(priceFrom)}
                       {priceFrom != null && priceTo != null && priceTo !== priceFrom && " - "}
                       {priceTo != null && priceTo !== priceFrom && formatPrice(priceTo)}
-                      {priceFrom == null && priceTo == null && "—"}
+                      {priceFrom == null && priceTo == null && "N/A"}
                     </span>
                   </div>
                   {total.units_count != null && (
@@ -125,6 +132,32 @@ export default function DeveloperPropertiesPage() {
             );
           })}
         </div>
+      )}
+
+      {!loading && properties.length > 0 && totalPages > 1 && (
+        <nav className="max-w-6xl mx-auto px-4 py-10 flex items-center justify-center gap-2" aria-label="Properties pagination">
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page <= 1}
+            aria-label="Previous page"
+            className="min-h-[44px] min-w-[44px] rounded-xl border border-zinc-700 bg-zinc-900 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-800 transition-colors flex items-center justify-center"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <span className="px-4 text-sm text-gray-400">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page >= totalPages}
+            aria-label="Next page"
+            className="min-h-[44px] min-w-[44px] rounded-xl border border-zinc-700 bg-zinc-900 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-800 transition-colors flex items-center justify-center"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </nav>
       )}
     </main>
   );

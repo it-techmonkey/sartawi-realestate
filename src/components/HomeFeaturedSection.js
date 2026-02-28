@@ -67,7 +67,7 @@ export default function HomeFeaturedSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
           {featured.map((prop, i) => {
             const total = prop.statistics?.total || {};
-            const coverUrl = prop.cover?.logo || prop.cover?.src;
+            const coverUrl = prop.cover?.src || prop.cover?.logo;
             const forSale = hasBuy(prop);
             const forRent = hasRent(prop);
             return (

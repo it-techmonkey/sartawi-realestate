@@ -55,7 +55,7 @@ export function filterProperties(items, { search = "", type = "All" }) {
 }
 
 export function formatPrice(n) {
-  if (n == null) return "—";
+  if (n == null) return "N/A";
   return new Intl.NumberFormat("en-AE", {
     style: "decimal",
     minimumFractionDigits: 0,
@@ -64,6 +64,28 @@ export function formatPrice(n) {
 }
 
 export function formatArea(sqm) {
-  if (sqm == null) return "—";
+  if (sqm == null) return "N/A";
   return `${Number(sqm).toLocaleString("en-AE")} sqm`;
+}
+
+/**
+ * Strip HTML tags and decode common entities for plain text display.
+ */
+export function stripHtml(html) {
+  if (typeof html !== "string") return "";
+  const doc = typeof document !== "undefined"
+    ? new DOMParser().parseFromString(html, "text/html")
+    : null;
+  if (doc?.body) {
+    return doc.body.textContent?.trim() ?? html.replace(/<[^>]*>/g, "").trim();
+  }
+  return html
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .trim();
 }
