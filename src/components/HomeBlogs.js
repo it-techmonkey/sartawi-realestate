@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import ScrollReveal from "./ScrollReveal";
 
 export default function HomeBlogs() {
@@ -36,18 +37,32 @@ export default function HomeBlogs() {
               <ScrollReveal key={blog.slug} delay={i * 0.06}>
                 <Link
                   href={`/blog/${blog.slug}`}
-                  className="block rounded-2xl border border-zinc-800 bg-zinc-900/30 p-8 min-h-[220px] flex flex-col justify-between hover:border-[#e0b973]/50 hover:bg-zinc-900/50 transition-all duration-300 group"
+                  className="block rounded-2xl border border-zinc-800 bg-zinc-900/30 overflow-hidden min-h-[280px] flex flex-col hover:border-[#e0b973]/50 hover:bg-zinc-900/50 transition-all duration-300 group"
                 >
-                  <div>
-                    {blog.readTime && <p className="text-xs text-gray-500 mb-2">{blog.readTime}</p>}
-                    <h3 className="text-lg font-semibold text-white group-hover:text-[#e0b973] transition-colors line-clamp-2 mb-2">
-                      {blog.title}
-                    </h3>
-                    <p className="text-gray-400 text-sm line-clamp-2">{blog.excerpt}</p>
+                  {blog.image && (
+                    <div className="relative w-full aspect-[16/10] bg-zinc-900 shrink-0">
+                      <Image
+                        src={blog.image}
+                        alt={blog.imageAlt || blog.title}
+                        fill
+                        className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                        sizes="(max-width: 640px) 100vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                    </div>
+                  )}
+                  <div className="p-6 flex flex-col flex-1 justify-between">
+                    <div>
+                      {blog.readTime && <p className="text-xs text-gray-500 mb-2">{blog.readTime}</p>}
+                      <h3 className="text-lg font-semibold text-white group-hover:text-[#e0b973] transition-colors line-clamp-2 mb-2">
+                        {blog.title}
+                      </h3>
+                      <p className="text-gray-400 text-sm line-clamp-2">{blog.excerpt}</p>
+                    </div>
+                    <span className="inline-block mt-4 text-[#e0b973] text-sm font-medium">
+                      Read more →
+                    </span>
                   </div>
-                  <span className="inline-block mt-4 text-[#e0b973] text-sm font-medium">
-                    Read more →
-                  </span>
                 </Link>
               </ScrollReveal>
             ))
