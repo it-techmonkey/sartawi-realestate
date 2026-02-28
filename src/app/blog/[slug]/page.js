@@ -5,6 +5,35 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
+/** Renders blog body with subtopic headers as H2. A paragraph is treated as H2 if it's a single short line that reads like a heading (e.g. "Where the market stands", "1. First mistake"). */
+function BlogContent({ content }) {
+  if (!content || typeof content !== "string") return null;
+  const blocks = content.split(/\n\n+/).map((b) => b.trim()).filter(Boolean);
+  const isLikelyHeading = (text) => {
+    const singleLine = !text.includes("\n");
+    const short = text.length <= 85;
+    const numbered = /^\d+\.\s/.test(text);
+    const noTrailingPeriod = !text.trimEnd().endsWith(".");
+    return singleLine && short && (numbered || noTrailingPeriod);
+  };
+
+  return (
+    <div className="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed">
+      {blocks.map((block, i) =>
+        isLikelyHeading(block) ? (
+          <h2 key={i} className="text-xl sm:text-2xl font-semibold text-white mt-10 mb-4 first:mt-0">
+            {block}
+          </h2>
+        ) : (
+          <p key={i} className="whitespace-pre-line mb-6 last:mb-0">
+            {block}
+          </p>
+        )
+      )}
+    </div>
+  );
+}
+
 export default function BlogPostPage() {
   const params = useParams();
   const slug = params?.slug;
@@ -89,9 +118,7 @@ export default function BlogPostPage() {
         <h1 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-8">
           {blog.title}
         </h1>
-        <div className="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed whitespace-pre-line">
-          {blog.content || blog.excerpt}
-        </div>
+        <BlogContent content={blog.content || blog.excerpt} />
       </article>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-16 pt-8 border-t border-zinc-800">

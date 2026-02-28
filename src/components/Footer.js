@@ -13,11 +13,11 @@ const FOOTER_LINKS = [
 ];
 
 const SERVICES = [
+  { label: "Sell Your Property", href: "/services/sell-your-property" },
   { label: "Homes for Sale", href: "/services/homes-for-sale" },
   { label: "Homes for Rent", href: "/services/homes-for-rent" },
   { label: "Commercial for Sale", href: "/services/commercial-for-sale" },
   { label: "Commercial for Rent", href: "/services/commercial-for-rent" },
-  { label: "Sell Your Property", href: "/services/sell-your-property" },
   { label: "Partner Services", href: "/services/partner-services" },
 ];
 
@@ -55,7 +55,7 @@ const Footer = () => {
               </p>
               <form
                 onSubmit={(e) => e.preventDefault()}
-                className="flex gap-2"
+                className="flex flex-col sm:flex-row gap-3 sm:gap-2"
               >
                 <input
                   type="email"
@@ -66,7 +66,7 @@ const Footer = () => {
                 />
                 <button
                   type="submit"
-                  className="px-5 py-3 bg-[#e0b973] hover:bg-[#d4a85f] text-black font-semibold rounded-lg text-sm transition-colors"
+                  className="shrink-0 px-5 py-3 min-h-[44px] bg-[#e0b973] hover:bg-[#d4a85f] text-black font-semibold rounded-lg text-sm transition-colors"
                 >
                   Subscribe
                 </button>
@@ -112,15 +112,17 @@ const Footer = () => {
         </div>
 
         {/* Contact strip */}
-        <div className="mt-16 pt-8 border-t border-zinc-800/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-400">
-            <a href="tel:+97145525643" className="hover:text-[#e0b973] transition-colors">
+        <div className="mt-16 pt-8 border-t border-zinc-800/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs sm:text-sm text-gray-400 min-w-0">
+            <a href="tel:+97145525643" className="hover:text-[#e0b973] transition-colors shrink-0">
               +971 45 525 643
             </a>
-            <a href="mailto:admin@sartawiproperties.com" className="hover:text-[#e0b973] transition-colors whitespace-nowrap">
+            <a href="mailto:admin@sartawiproperties.com" className="hover:text-[#e0b973] transition-colors shrink-0 break-all sm:break-normal">
               admin@sartawiproperties.com
             </a>
-            <span>Sartawi Properties, Parklane Tower, 901</span>
+            <span className="min-w-0 break-words sm:whitespace-nowrap">
+              Sartawi Properties, Parklane Tower, 901 Business Bay
+            </span>
           </div>
           <div className="flex items-center gap-4">
             <a

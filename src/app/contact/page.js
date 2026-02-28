@@ -27,23 +27,23 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           <div className="lg:col-span-4 space-y-10">
             <div>
-              <p className="text-[#e0b973] text-[11px] font-medium uppercase tracking-[0.2em] mb-3">
+              <h2 className="text-xl sm:text-2xl font-semibold text-white mb-3">
                 Reach us
-              </p>
+              </h2>
               <a href="tel:+97145525643" className="block text-white hover:text-[#e0b973] transition-colors py-1.5 text-base">
                 +971 45 525 643
               </a>
               <a href="mailto:admin@sartawiproperties.com" className="block text-zinc-400 hover:text-[#e0b973] transition-colors py-1.5 text-sm whitespace-nowrap">
                 admin@sartawiproperties.com
               </a>
-              <p className="text-zinc-500 text-sm pt-2">
-                Sartawi Properties, Parklane Tower, 901
+              <p className="text-zinc-500 text-xs sm:text-sm pt-2 min-w-0 max-w-full sm:whitespace-nowrap">
+                Sartawi Properties, Parklane Tower, 901 Business Bay
               </p>
             </div>
             <div>
-              <p className="text-[#e0b973] text-[11px] font-medium uppercase tracking-[0.2em] mb-3">
+              <h2 className="text-xl sm:text-2xl font-semibold text-white mb-3">
                 Quick links
-              </p>
+              </h2>
               <ul className="space-y-2 text-sm">
                 <li><Link href="/#sell-property" className="text-zinc-400 hover:text-[#e0b973]">Sell your property</Link></li>
                 <li><Link href="/featured-properties" className="text-zinc-400 hover:text-[#e0b973]">Featured properties</Link></li>
@@ -59,7 +59,7 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="bg-zinc-900/60 rounded-xl p-6 sm:p-8 space-y-5">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-400 mb-4">Send a message</p>
+                <h2 className="text-xl sm:text-2xl font-semibold text-white mb-4">Send a message</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className="block text-xs font-medium text-zinc-400 mb-1.5 uppercase tracking-wider">Name</label>

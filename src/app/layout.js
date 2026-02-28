@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <main className="flex-grow relative">{children}</main>
           <Footer />
+          {/* Floating WhatsApp: fixed on screen on every page, not in footer */}
           <WhatsAppFloat />
         </div>
       </body>

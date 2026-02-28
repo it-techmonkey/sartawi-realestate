@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+
 const WHATSAPP_NUMBER = "97145525643";
 
 function WhatsAppIcon({ className = "w-5 h-5" }) {
@@ -11,11 +14,23 @@ function WhatsAppIcon({ className = "w-5 h-5" }) {
 }
 
 export default function WhatsAppFloat() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const href = `https://wa.me/${WHATSAPP_NUMBER}`;
-  return (
-    <div className="fixed right-4 sm:right-5 bottom-5 z-40 group">
+
+  const floatContent = (
+    <div
+      className="group"
+      style={{
+        position: "fixed",
+        right: "max(1.25rem, env(safe-area-inset-right))",
+        bottom: "max(1.5rem, env(safe-area-inset-bottom))",
+        zIndex: 99999,
+      }}
+    >
       <div className="absolute right-full bottom-0 mr-3 mb-1 px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 shadow-xl text-left opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64">
-        <p className="text-[#e0b973] font-semibold text-sm">Sartawi</p>
+        <p className="text-[#e0b973] font-semibold text-sm">Sartawi Group</p>
         <p className="text-gray-400 text-xs">Customer support</p>
         <p className="text-gray-300 text-xs leading-snug mt-2">
           Need quick answers? Tap to chat with us.
@@ -26,11 +41,14 @@ export default function WhatsAppFloat() {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-lg hover:bg-[#20bd5a] hover:scale-105 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-        aria-label="Sartawi customer support. Need quick answers? Tap to chat with us on WhatsApp."
+        className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-lg hover:bg-[#20bd5a] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+        aria-label="Sartawi Group customer support. Need quick answers? Tap to chat with us on WhatsApp."
       >
         <WhatsAppIcon className="w-6 h-6" />
       </a>
     </div>
   );
+
+  if (!mounted || typeof document === "undefined") return null;
+  return createPortal(floatContent, document.body);
 }

@@ -6,6 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import PageHero from "@/components/PageHero";
 import ExternalImage from "@/components/ExternalImage";
+import SellPropertyForm from "@/components/SellPropertyForm";
 import {
   filterProperties,
   formatPrice,
@@ -360,6 +361,8 @@ function FeaturedPropertiesContent() {
           </p>
         </div>
       )}
+
+      <SellPropertyForm />
     </main>
   );
 }

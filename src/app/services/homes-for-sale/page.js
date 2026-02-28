@@ -7,34 +7,34 @@ export default function HomesForSale() {
     return (
         <main className="min-h-screen bg-black text-white">
             {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-[#0a0a0a] via-black to-[#1a1a1a] text-white py-24 px-6 sm:px-10 lg:px-24 overflow-hidden min-h-[70vh] flex items-center">
-                <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-[#e0b973] to-[#f4d03f] rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-3xl"></div>
+            <section className="relative bg-gradient-to-br from-[#0a0a0a] via-black to-[#1a1a1a] text-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-16 overflow-hidden min-h-[60vh] sm:min-h-[70vh] flex items-center">
+                <div className="absolute inset-0 opacity-20 pointer-events-none">
+                    <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-[#e0b973] to-[#f4d03f] rounded-full blur-3xl" />
+                    <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-3xl" />
                 </div>
 
                 <div className="max-w-6xl mx-auto relative z-10 w-full">
-                    <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        <div className="space-y-8">
-                            <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#e0b973] to-[#f4d03f] bg-clip-text text-transparent">
-                                <div className="w-8 h-8 bg-gradient-to-r from-[#e0b973] to-[#f4d03f] rounded-lg flex items-center justify-center text-black">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+                        <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
+                            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-[#e0b973] to-[#f4d03f] bg-clip-text text-transparent">
+                                <div className="w-8 h-8 bg-gradient-to-r from-[#e0b973] to-[#f4d03f] rounded-lg flex items-center justify-center text-black shrink-0">
                                     <IconStar />
                                 </div>
-                                <span className="text-sm font-semibold tracking-wider uppercase">Premium Service</span>
+                                <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase">Premium Service</span>
                             </div>
-                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-                                Find Your
-                                <span className="block bg-gradient-to-r from-[#e0b973] to-[#f4d03f] bg-clip-text text-transparent">
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+                                Find Your{" "}
+                                <span className="block sm:inline bg-gradient-to-r from-[#e0b973] to-[#f4d03f] bg-clip-text text-transparent">
                                     Dream Home
                                 </span>
                             </h1>
-                            <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
+                            <p className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-lg mx-auto lg:mx-0">
                                 Discover your dream home with our extensive collection of residential properties. From cozy apartments to luxury villas, we offer a wide range of homes for sale across Dubai&apos;s most desirable locations.
                             </p>
                         </div>
 
-                        <div className="relative group">
-                            <div className="relative bg-gradient-to-br from-[#111111] to-[#1a1a1a] p-8 rounded-3xl border border-[#262626] hover:border-[#e0b973] transition-all duration-500 hover:shadow-2xl hover:shadow-[#e0b973]/20 overflow-hidden min-h-[400px] flex items-center justify-center">
+                        <div className="relative group hidden lg:block">
+                            <div className="relative bg-gradient-to-br from-[#111111] to-[#1a1a1a] p-6 sm:p-8 rounded-2xl lg:rounded-3xl border border-[#262626] hover:border-[#e0b973] transition-all duration-500 hover:shadow-2xl hover:shadow-[#e0b973]/20 overflow-hidden min-h-[320px] lg:min-h-[400px] flex items-center justify-center">
                                 <div
                                     className="absolute inset-0 bg-cover bg-center opacity-45 group-hover:opacity-35 transition-all duration-500 rounded-3xl scale-105 group-hover:scale-110"
                                     style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80')" }}

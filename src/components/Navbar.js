@@ -117,6 +117,7 @@ const Navbar = () => {
                     <div className="absolute top-full left-0 pt-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                         <div className="bg-black border border-gray-700 rounded-md shadow-lg overflow-hidden">
                             {[
+                                { name: "Sell Your Property", href: "/services/sell-your-property" },
                                 { name: "Homes for Sale", href: "/services/homes-for-sale" },
                                 { name: "Homes for Rent", href: "/services/homes-for-rent" },
                                 {
@@ -127,7 +128,6 @@ const Navbar = () => {
                                     name: "Commercial for Rent",
                                     href: "/services/commercial-for-rent",
                                 },
-                                { name: "Sell Your Property", href: "/services/sell-your-property" },
                                 { name: "Partner Services", href: "/services/partner-services" },
                             ].map((service) => (
                                 <Link
@@ -208,11 +208,11 @@ const Navbar = () => {
                             </p>
                             <div className="flex flex-col gap-1">
                                 {[
+                                    { name: "Sell Your Property", href: "/services/sell-your-property" },
                                     { name: "Homes for Sale", href: "/services/homes-for-sale" },
                                     { name: "Homes for Rent", href: "/services/homes-for-rent" },
                                     { name: "Commercial for Sale", href: "/services/commercial-for-sale" },
                                     { name: "Commercial for Rent", href: "/services/commercial-for-rent" },
-                                    { name: "Sell Your Property", href: "/services/sell-your-property" },
                                     { name: "Partner Services", href: "/services/partner-services" },
                                 ].map((service) => (
                                     <Link

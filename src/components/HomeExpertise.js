@@ -24,13 +24,13 @@ export default function HomeExpertise() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto">
           {ITEMS.map((item, i) => (
             <ScrollReveal key={item.title} delay={i * 0.06}>
-              <div className="h-full min-h-[220px] rounded-2xl bg-black border border-zinc-800 p-6 sm:p-8 hover:border-[#e0b973]/40 transition-colors flex flex-col">
-                <div className="w-12 h-12 rounded-xl bg-[#e0b973]/15 flex items-center justify-center text-[#e0b973] mb-5 shrink-0">
+              <div className="h-full min-h-[260px] sm:min-h-[240px] lg:min-h-[220px] rounded-2xl bg-black border border-zinc-800 p-5 sm:p-6 lg:p-8 hover:border-[#e0b973]/40 transition-colors flex flex-col">
+                <div className="w-12 h-12 rounded-xl bg-[#e0b973]/15 flex items-center justify-center text-[#e0b973] mb-4 shrink-0">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.icon} />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-white mb-2">{item.title}</h3>
                 <p className="text-gray-400 text-sm leading-relaxed flex-1">{item.description}</p>
               </div>
             </ScrollReveal>
