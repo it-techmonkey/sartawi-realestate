@@ -36,6 +36,15 @@ export function hasRent(item) {
   return s && s.rents && Object.keys(s.rents).length > 0;
 }
 
+/** Normalize a field (string or { ur, en }) to a single string for search. */
+function searchableText(val) {
+  if (val == null) return "";
+  if (typeof val === "string") return val;
+  if (typeof val === "object" && ("ur" in val || "en" in val))
+    return [val.ur, val.en].filter(Boolean).join(" ");
+  return "";
+}
+
 export function filterProperties(items, { search = "", type = "All" }) {
   if (!items || !Array.isArray(items)) return [];
   let list = items;
@@ -45,9 +54,9 @@ export function filterProperties(items, { search = "", type = "All" }) {
     const q = search.toLowerCase().trim();
     list = list.filter(
       (p) =>
-        (p.title && p.title.toLowerCase().includes(q)) ||
-        (p.builder && p.builder.toLowerCase().includes(q)) ||
-        (p.district?.title && p.district.title.toLowerCase().includes(q)) ||
+        searchableText(p.title).toLowerCase().includes(q) ||
+        searchableText(p.builder).toLowerCase().includes(q) ||
+        searchableText(p.district?.title).toLowerCase().includes(q) ||
         (p.slug && p.slug.toLowerCase().includes(q))
     );
   }

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ClientProviders from "@/components/ClientProviders";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -20,17 +21,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${urbanist.variable} antialiased font-sans bg-black text-white`}
       >
-        <div className="flex flex-col min-h-screen bg-black">
-          <Navbar />
-          <main className="flex-grow relative">{children}</main>
-          <Footer />
-          {/* Floating WhatsApp: fixed on screen on every page, not in footer */}
-          <WhatsAppFloat />
-        </div>
+        <ClientProviders>
+          <div className="flex flex-col min-h-screen bg-black">
+            <Navbar />
+            <main className="flex-grow relative">{children}</main>
+            <Footer />
+            <WhatsAppFloat />
+          </div>
+        </ClientProviders>
       </body>
     </html>
   );

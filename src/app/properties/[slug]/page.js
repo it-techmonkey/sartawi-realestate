@@ -12,6 +12,8 @@ import {
   hasRent,
   stripHtml,
 } from "@/lib/properties";
+import { useLanguage } from "@/context/LanguageContext";
+import { useDisplayText } from "@/hooks/useDisplayText";
 
 export default function PropertyDetailPage() {
   const params = useParams();
@@ -20,6 +22,12 @@ export default function PropertyDetailPage() {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(true);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const { language } = useLanguage();
+
+  const [displayTitle] = useDisplayText(property?.title || property?.slug || "", language);
+  const [displayBuilder] = useDisplayText(property?.builder || "", language);
+  const [displayDistrict] = useDisplayText(property?.district?.title || "", language);
+  const [displayDescription] = useDisplayText(description || "", language);
 
   useEffect(() => {
     if (!slug) return;
@@ -118,7 +126,7 @@ export default function PropertyDetailPage() {
           {mainImage ? (
             <ExternalImage
               src={mainImage}
-              alt={property.title || property.slug}
+              alt={displayTitle}
               variant="hero"
               fill
               className="object-cover"
@@ -147,20 +155,20 @@ export default function PropertyDetailPage() {
           <div className="absolute left-0 right-0 bottom-0 p-4 sm:p-6 lg:p-8 hidden md:block">
             <div className={`${allImages.length > 1 ? "mb-20" : ""}`}>
               <h1 className="text-2xl sm:text-3xl lg:text-5xl font-semibold text-white drop-shadow-lg max-w-4xl leading-tight">
-                {property.title || property.slug}
+                {displayTitle}
               </h1>
               <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 text-sm text-gray-300">
-                {property.builder && (
+                {displayBuilder && (
                   <Link href={`/developers/${encodeURIComponent(property.builder)}`} className="font-medium text-[#e0b973] hover:underline">
-                    {property.builder}
+                    {displayBuilder}
                   </Link>
                 )}
-                {property.district?.title && (
+                {displayDistrict && (
                   <span className="flex items-center gap-1.5">
                     <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     </svg>
-                    {property.district.title}
+                    {displayDistrict}
                   </span>
                 )}
               </div>
@@ -189,20 +197,20 @@ export default function PropertyDetailPage() {
         {/* Mobile only: title, meta, icon buttons and thumbnails BELOW image (no overlay) */}
         <div className="md:hidden mt-4 px-1">
           <h1 className="text-xl font-semibold text-white leading-tight mb-2">
-            {property.title || property.slug}
+            {displayTitle}
           </h1>
           <div className="flex flex-wrap items-center gap-3 text-xs text-gray-400 mb-4">
-            {property.builder && (
+            {displayBuilder && (
               <Link href={`/developers/${encodeURIComponent(property.builder)}`} className="font-medium text-[#e0b973] hover:underline">
-                {property.builder}
+                {displayBuilder}
               </Link>
             )}
-            {property.district?.title && (
+            {displayDistrict && (
               <span className="flex items-center gap-1.5">
                 <svg className="w-3.5 h-3.5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 </svg>
-                {property.district.title}
+                {displayDistrict}
               </span>
             )}
           </div>
@@ -341,7 +349,7 @@ export default function PropertyDetailPage() {
               <section className="rounded-xl sm:rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 sm:p-6 lg:p-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Description</h2>
                 <p className="text-gray-300 leading-relaxed text-base whitespace-pre-line">
-                  {description.trim()}
+                  {displayDescription.trim()}
                 </p>
               </section>
             )}

@@ -10,6 +10,73 @@ import {
   hasBuy,
   hasRent,
 } from "@/lib/properties";
+import { useLanguage } from "@/context/LanguageContext";
+import { useDisplayText } from "@/hooks/useDisplayText";
+
+function DeveloperPropertyCard({ prop }) {
+  const { language } = useLanguage();
+  const [displayTitle] = useDisplayText(prop.title || prop.slug || "", language);
+  const [displayDistrict] = useDisplayText(prop.district?.title || "", language);
+  const total = prop.statistics?.total || {};
+  const coverUrl = prop.cover?.src || prop.cover?.logo;
+  const forSale = hasBuy(prop);
+  const forRent = hasRent(prop);
+  return (
+    <Link
+      href={`/properties/${prop.slug}`}
+      className="group bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-[#e0b973] transition-all duration-300"
+    >
+      <div className="relative aspect-[4/3] w-full bg-zinc-800">
+        {coverUrl ? (
+          <ExternalImage
+            src={coverUrl}
+            alt={displayTitle}
+            variant="card"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-600 text-sm">
+            No image
+          </div>
+        )}
+        <div className="absolute top-3 left-3 flex gap-2">
+          {forSale && (
+            <span className="bg-black/70 text-white text-[10px] px-2 py-1 rounded uppercase font-bold">
+              Sale
+            </span>
+          )}
+          {forRent && (
+            <span className="bg-black/70 text-white text-[10px] px-2 py-1 rounded uppercase font-bold">
+              Rent
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="p-5 space-y-2">
+        <h3 className="text-lg font-semibold group-hover:text-[#e0b973] transition-colors line-clamp-2">
+          {displayTitle}
+        </h3>
+        {displayDistrict && (
+          <p className="text-sm text-gray-400">{displayDistrict}</p>
+        )}
+        <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
+          <span className="text-[#e0b973] font-bold">
+            {total.price_from != null && formatPrice(total.price_from)}
+            {total.price_from != null && total.price_to != null && total.price_to !== total.price_from && " - "}
+            {total.price_to != null && total.price_to !== total.price_from && formatPrice(total.price_to)}
+            {total.price_from == null && total.price_to == null && "N/A"}
+          </span>
+        </div>
+        {total.units_count != null && (
+          <p className="text-xs text-gray-500">
+            {total.units_count} units · up to {total.units_max_floor} floors
+          </p>
+        )}
+      </div>
+    </Link>
+  );
+}
 
 export default function DeveloperPropertiesPage() {
   const params = useParams();
@@ -67,70 +134,9 @@ export default function DeveloperPropertiesPage() {
         </div>
       ) : (
         <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {paginatedProperties.map((prop) => {
-            const total = prop.statistics?.total || {};
-            const priceFrom = total.price_from;
-            const priceTo = total.price_to;
-            const coverUrl = prop.cover?.src || prop.cover?.logo;
-            const forSale = hasBuy(prop);
-            const forRent = hasRent(prop);
-            return (
-              <Link
-                key={prop.id}
-                href={`/properties/${prop.slug}`}
-                className="group bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-[#e0b973] transition-all duration-300"
-              >
-                <div className="relative aspect-[4/3] w-full bg-zinc-800">
-                  {coverUrl ? (
-                    <ExternalImage
-                      src={coverUrl}
-                      alt={prop.title || prop.slug}
-                      variant="card"
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-600 text-sm">
-                      No image
-                    </div>
-                  )}
-                  <div className="absolute top-3 left-3 flex gap-2">
-                    {forSale && (
-                      <span className="bg-black/70 text-white text-[10px] px-2 py-1 rounded uppercase font-bold">
-                        Sale
-                      </span>
-                    )}
-                    {forRent && (
-                      <span className="bg-black/70 text-white text-[10px] px-2 py-1 rounded uppercase font-bold">
-                        Rent
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="p-5 space-y-2">
-                  <h3 className="text-lg font-semibold group-hover:text-[#e0b973] transition-colors line-clamp-2">
-                    {prop.title || prop.slug}
-                  </h3>
-                  {prop.district?.title && (
-                    <p className="text-sm text-gray-400">{prop.district.title}</p>
-                  )}
-                  <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
-                    <span className="text-[#e0b973] font-bold">
-                      {priceFrom != null && formatPrice(priceFrom)}
-                      {priceFrom != null && priceTo != null && priceTo !== priceFrom && " - "}
-                      {priceTo != null && priceTo !== priceFrom && formatPrice(priceTo)}
-                      {priceFrom == null && priceTo == null && "N/A"}
-                    </span>
-                  </div>
-                  {total.units_count != null && (
-                    <p className="text-xs text-gray-500">
-                      {total.units_count} units · up to {total.units_max_floor} floors
-                    </p>
-                  )}
-                </div>
-              </Link>
-            );
-          })}
+          {paginatedProperties.map((prop) => (
+            <DeveloperPropertyCard key={prop.id} prop={prop} />
+          ))}
         </div>
       )}
 

@@ -6,6 +6,8 @@ import dynamic from "next/dynamic";
 import ScrollReveal from "./ScrollReveal";
 import ExternalImage from "./ExternalImage";
 import { formatPrice, hasBuy, hasRent } from "@/lib/properties";
+import { useLanguage } from "@/context/LanguageContext";
+import { useDisplayText } from "@/hooks/useDisplayText";
 
 const PropertiesMap = dynamic(
   () => import("@/components/PropertiesMap"),
@@ -20,6 +22,56 @@ const PropertiesMap = dynamic(
 );
 
 const FEATURED_COUNT = 3;
+
+function FeaturedCard({ prop, index, total, coverUrl, forSale, forRent }) {
+  const { language } = useLanguage();
+  const [displayTitle] = useDisplayText(prop.title || prop.slug || "", language);
+  return (
+    <ScrollReveal delay={0.1 + index * 0.06}>
+      <Link href={`/properties/${prop.slug}`} className="group block relative">
+        <div className="relative rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 transition-all duration-300 hover:border-[#e0b973]/50 hover:shadow-xl hover:shadow-[#e0b973]/10">
+          <div className="relative aspect-[4/3] w-full bg-zinc-800">
+            {coverUrl ? (
+              <ExternalImage
+                src={coverUrl}
+                alt={displayTitle}
+                variant="card"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-gray-500 text-sm">
+                No image
+              </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+            <div className="absolute top-4 left-4 flex gap-2">
+              {forSale && (
+                <span className="bg-[#e0b973] text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
+                  Sale
+                </span>
+              )}
+              {forRent && (
+                <span className="bg-white/90 text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
+                  Rent
+                </span>
+              )}
+            </div>
+            <div className="absolute bottom-4 left-4 right-4">
+              <h3 className="font-semibold text-lg text-white line-clamp-2">
+                {displayTitle}
+              </h3>
+              <p className="text-[#e0b973] font-bold mt-1">
+                {total.price_from != null && formatPrice(total.price_from)}
+                {total.price_to != null && total.price_to !== total.price_from && ` – ${formatPrice(total.price_to)}`}
+              </p>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </ScrollReveal>
+  );
+}
 
 export default function HomeFeaturedSection() {
   const [items, setItems] = useState([]);
@@ -65,60 +117,17 @@ export default function HomeFeaturedSection() {
 
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-          {featured.map((prop, i) => {
-            const total = prop.statistics?.total || {};
-            const coverUrl = prop.cover?.src || prop.cover?.logo;
-            const forSale = hasBuy(prop);
-            const forRent = hasRent(prop);
-            return (
-              <ScrollReveal key={prop.id} delay={0.1 + i * 0.06}>
-                <Link
-                  href={`/properties/${prop.slug}`}
-                  className="group block relative"
-                >
-                  <div className="relative rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 transition-all duration-300 hover:border-[#e0b973]/50 hover:shadow-xl hover:shadow-[#e0b973]/10">
-                    <div className="relative aspect-[4/3] w-full bg-zinc-800">
-                      {coverUrl ? (
-                        <ExternalImage
-                          src={coverUrl}
-                          alt={prop.title || prop.slug}
-                          variant="card"
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center text-gray-500 text-sm">
-                          No image
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                      <div className="absolute top-4 left-4 flex gap-2">
-                        {forSale && (
-                          <span className="bg-[#e0b973] text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                            Sale
-                          </span>
-                        )}
-                        {forRent && (
-                          <span className="bg-white/90 text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                            Rent
-                          </span>
-                        )}
-                      </div>
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <h3 className="font-semibold text-lg text-white line-clamp-2">
-                          {prop.title || prop.slug}
-                        </h3>
-                        <p className="text-[#e0b973] font-bold mt-1">
-                          {total.price_from != null && formatPrice(total.price_from)}
-                          {total.price_to != null && total.price_to !== total.price_from && ` – ${formatPrice(total.price_to)}`}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            );
-          })}
+          {featured.map((prop, i) => (
+            <FeaturedCard
+              key={prop.id}
+              prop={prop}
+              index={i}
+              total={prop.statistics?.total || {}}
+              coverUrl={prop.cover?.src || prop.cover?.logo}
+              forSale={hasBuy(prop)}
+              forRent={hasRent(prop)}
+            />
+          ))}
         </div>
 
         <ScrollReveal delay={0.3} className="text-center mt-16">

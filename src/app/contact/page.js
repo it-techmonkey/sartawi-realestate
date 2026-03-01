@@ -25,18 +25,18 @@ export default function ContactPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-          <div className="lg:col-span-4 space-y-10">
-            <div>
+          <div className="lg:col-span-4 space-y-10 min-w-0">
+            <div className="min-w-0">
               <h2 className="text-xl sm:text-2xl font-semibold text-white mb-3">
                 Reach us
               </h2>
               <a href="tel:+97145525643" className="block text-white hover:text-[#e0b973] transition-colors py-1.5 text-base">
                 +971 45 525 643
               </a>
-              <a href="mailto:admin@sartawiproperties.com" className="block text-zinc-400 hover:text-[#e0b973] transition-colors py-1.5 text-sm whitespace-nowrap">
+              <a href="mailto:admin@sartawiproperties.com" className="block text-zinc-400 hover:text-[#e0b973] transition-colors py-1.5 text-sm whitespace-nowrap truncate max-w-full">
                 admin@sartawiproperties.com
               </a>
-              <p className="text-zinc-500 text-xs sm:text-sm pt-2 min-w-0 max-w-full sm:whitespace-nowrap">
+              <p className="text-zinc-500 text-xs sm:text-sm pt-2 whitespace-nowrap truncate max-w-full min-w-0">
                 Sartawi Properties, Parklane Tower, 901 Business Bay
               </p>
             </div>

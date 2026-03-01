@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import PageHero from "@/components/PageHero";
 import ExternalImage from "@/components/ExternalImage";
 import SellPropertyForm from "@/components/SellPropertyForm";
+import ScrollReveal from "@/components/ScrollReveal";
 import {
   filterProperties,
   formatPrice,
@@ -14,6 +15,8 @@ import {
   hasBuy,
   hasRent,
 } from "@/lib/properties";
+import { useLanguage } from "@/context/LanguageContext";
+import { useDisplayText } from "@/hooks/useDisplayText";
 
 const PropertiesMap = dynamic(
   () => import("@/components/PropertiesMap"),
@@ -28,6 +31,123 @@ function FeaturedPropertiesFallback() {
         <p className="text-zinc-500">Loading properties…</p>
       </div>
     </main>
+  );
+}
+
+function PropertyCard({ prop, type, index, page }) {
+  const { language } = useLanguage();
+  const total = prop.statistics?.total || {};
+  const coverUrl = prop.cover?.logo || prop.cover?.src;
+  const forSale = hasBuy(prop);
+  const forRent = hasRent(prop);
+  const isPriority = page === 1 && index < 6;
+  const [displayTitle] = useDisplayText(prop.title || prop.slug || "", language);
+  const [displayDistrict] = useDisplayText(prop.district?.title || "", language);
+
+  return (
+    <Link
+      href={`/properties/${prop.slug}`}
+      className="group bg-zinc-900 rounded-2xl overflow-hidden transition-all duration-300 shadow-xl"
+    >
+      <div className="relative aspect-[4/3] w-full bg-zinc-800">
+        {coverUrl ? (
+          <ExternalImage
+            src={coverUrl}
+            alt={displayTitle}
+            variant="card"
+            fill
+            priority={isPriority}
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-600 text-sm">
+            No image
+          </div>
+        )}
+        <div className="absolute top-4 left-4 flex gap-2">
+          {type === "Buy" && forSale && (
+            <span className="bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded uppercase font-bold tracking-wider">
+              For Sale
+            </span>
+          )}
+          {type === "Rent" && forRent && (
+            <span className="bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded uppercase font-bold tracking-wider">
+              For Rent
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="p-6 space-y-4">
+        <div className="space-y-1">
+          <h3 className="text-xl font-semibold group-hover:text-[#e0b973] transition-colors leading-tight line-clamp-2">
+            {displayTitle}
+          </h3>
+          <p className="text-sm text-gray-400 flex items-center gap-1">
+            {displayDistrict && (
+              <>
+                <svg
+                  className="w-4 h-4 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                {displayDistrict}
+              </>
+            )}
+            {prop.builder && !displayDistrict && prop.builder}
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between pt-2">
+          <div className="text-[#e0b973] font-bold text-lg">
+            {total.price_from != null && formatPrice(total.price_from)}
+            {total.price_from != null &&
+              total.price_to != null &&
+              total.price_to !== total.price_from &&
+              " - "}
+            {total.price_to != null &&
+              total.price_to !== total.price_from &&
+              formatPrice(total.price_to)}
+            {total.price_from == null && total.price_to == null && "N/A"}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 pt-2 text-[#bebebe] text-center">
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-xs font-semibold">
+              {total.units_count ?? "N/A"} units
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-1 border-x border-zinc-800">
+            <span className="text-xs font-semibold">
+              {total.units_area_mt != null
+                ? formatArea(total.units_area_mt)
+                : "N/A"}
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-xs font-semibold">
+              {total.units_max_floor != null
+                ? `Up to ${total.units_max_floor} floors`
+                : "N/A"}
+            </span>
+          </div>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -210,119 +330,11 @@ function FeaturedPropertiesContent() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 px-4 max-w-7xl mx-auto pb-8">
-          {paginatedProperties.map((prop, index) => {
-            const total = prop.statistics?.total || {};
-            const coverUrl = prop.cover?.logo || prop.cover?.src;
-            const forSale = hasBuy(prop);
-            const forRent = hasRent(prop);
-            const isPriority = page === 1 && index < 6;
-            return (
-              <Link
-                key={prop.id}
-                href={`/properties/${prop.slug}`}
-                className="group bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-[#e0b973] transition-all duration-300 shadow-xl"
-              >
-                <div className="relative aspect-[4/3] w-full bg-zinc-800">
-                  {coverUrl ? (
-                    <ExternalImage
-                      src={coverUrl}
-                      alt={prop.title || prop.slug}
-                      variant="card"
-                      fill
-                      priority={isPriority}
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-600 text-sm">
-                      No image
-                    </div>
-                  )}
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    {type === "Buy" && forSale && (
-                      <span className="bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded uppercase font-bold tracking-wider">
-                        For Sale
-                      </span>
-                    )}
-                    {type === "Rent" && forRent && (
-                      <span className="bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded uppercase font-bold tracking-wider">
-                        For Rent
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="p-6 space-y-4">
-                  <div className="space-y-1">
-                    <h3 className="text-xl font-semibold group-hover:text-[#e0b973] transition-colors leading-tight line-clamp-2">
-                      {prop.title || prop.slug}
-                    </h3>
-                    <p className="text-sm text-gray-400 flex items-center gap-1">
-                      {prop.district?.title && (
-                        <>
-                          <svg
-                            className="w-4 h-4 shrink-0"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                            />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
-                          </svg>
-                          {prop.district.title}
-                        </>
-                      )}
-                      {prop.builder && !prop.district?.title && prop.builder}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
-                    <div className="text-[#e0b973] font-bold text-lg">
-                      {total.price_from != null && formatPrice(total.price_from)}
-                      {total.price_from != null &&
-                        total.price_to != null &&
-                        total.price_to !== total.price_from &&
-                        " - "}
-                      {total.price_to != null &&
-                        total.price_to !== total.price_from &&
-                        formatPrice(total.price_to)}
-                      {total.price_from == null && total.price_to == null && "N/A"}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4 pt-2 text-[#bebebe] text-center">
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-xs font-semibold">
-                        {total.units_count ?? "N/A"} units
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1 border-x border-zinc-800">
-                      <span className="text-xs font-semibold">
-                        {total.units_area_mt != null
-                          ? formatArea(total.units_area_mt)
-                          : "N/A"}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-xs font-semibold">
-                        {total.units_max_floor != null
-                          ? `Up to ${total.units_max_floor} floors`
-                          : "N/A"}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+          {paginatedProperties.map((prop, index) => (
+            <ScrollReveal key={prop.id} delay={index * 0.05}>
+              <PropertyCard prop={prop} type={type} index={index} page={page} />
+            </ScrollReveal>
+          ))}
         </div>
       )}
 

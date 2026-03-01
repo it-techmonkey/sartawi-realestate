@@ -117,10 +117,10 @@ const Footer = () => {
             <a href="tel:+97145525643" className="hover:text-[#e0b973] transition-colors shrink-0">
               +971 45 525 643
             </a>
-            <a href="mailto:admin@sartawiproperties.com" className="hover:text-[#e0b973] transition-colors shrink-0 break-all sm:break-normal">
+            <a href="mailto:admin@sartawiproperties.com" className="hover:text-[#e0b973] transition-colors shrink-0 truncate max-w-[200px] sm:max-w-none">
               admin@sartawiproperties.com
             </a>
-            <span className="min-w-0 break-words sm:whitespace-nowrap">
+            <span className="min-w-0 whitespace-nowrap truncate max-w-full sm:max-w-none">
               Sartawi Properties, Parklane Tower, 901 Business Bay
             </span>
           </div>

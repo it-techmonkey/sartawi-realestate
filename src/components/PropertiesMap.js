@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useMap, MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useLanguage } from "@/context/LanguageContext";
+import { useDisplayText } from "@/hooks/useDisplayText";
 
 function FitBounds({ items }) {
   const map = useMap();
@@ -33,6 +35,26 @@ const markerIcon =
         iconAnchor: [12, 12],
       })
     : null;
+
+function MapPopupContent({ prop }) {
+  const { language } = useLanguage();
+  const [displayTitle] = useDisplayText(prop.title || prop.slug || "", language);
+  return (
+    <>
+      <a
+        href={`/properties/${prop.slug}`}
+        className="text-[#e0b973] font-semibold hover:underline"
+      >
+        {displayTitle}
+      </a>
+      {prop.statistics?.total?.price_from != null && (
+        <p className="text-sm text-gray-600 mt-1">
+          from {Number(prop.statistics.total.price_from).toLocaleString()} AED
+        </p>
+      )}
+    </>
+  );
+}
 
 export default function PropertiesMap({ items, selectedSlug, dark = false }) {
   const [mounted, setMounted] = useState(false);
@@ -84,17 +106,7 @@ export default function PropertiesMap({ items, selectedSlug, dark = false }) {
           icon={markerIcon}
         >
           <Popup>
-            <a
-              href={`/properties/${prop.slug}`}
-              className="text-[#e0b973] font-semibold hover:underline"
-            >
-              {prop.title || prop.slug}
-            </a>
-            {prop.statistics?.total?.price_from != null && (
-              <p className="text-sm text-gray-600 mt-1">
-                from {Number(prop.statistics.total.price_from).toLocaleString()} AED
-              </p>
-            )}
+            <MapPopupContent prop={prop} />
           </Popup>
         </Marker>
       ))}
